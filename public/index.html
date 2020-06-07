@@ -123,9 +123,9 @@
           src="https://cdn.glitch.com/a25c73b8-5213-4a83-8d22-fb99eb1be48d%2Fheart_by_jelz_02.glb"
           crossorigin="anonymous"
         ></a-asset-item>
-        
-       
-  
+
+
+
 
         <!-- Templates -->
 
@@ -170,74 +170,74 @@
         </template>
 
         <!-- /Templates -->
-        
+
         <!-- Mixins -->
-        
-        
-        
-         <a-mixin id="painting_type-a" 
+
+
+
+         <a-mixin id="painting_type-a"
                  geometry="primitive:box;width:0.01;height:0.25;depth:0.25;"
                  material="color: #228911"></a-mixin>
-        
-        <a-mixin id="border_type-a" 
+
+        <a-mixin id="border_type-a"
                  geometry="primitive: torus; radiusTubular: 0.02; segmentsRadial: 4; segmentsTubular: 4; radius:  0.26"
                  rotation="0 90 45"
                  material="color: #954911"
                  scale="0.728 0.728 0.728"></a-mixin>
-        
-      
-        
+
+
+
         <!-- /Mixins -->
-        
+
       </a-assets>
 
 
       <a-entity
         id="cat-gltf-model-example"
         gltf-model="url(https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2Fpaint3dbigcatcoloured.glb?v=1563789206864)"
-        position="0 0 -4"
+        position="1.03194 0 -5.00506"
       ></a-entity>
 
       <!-- painting positioning is row, column e.g. 01-02 is row 01, column 02 -->
 
-      
-      
+
+
        <!-- ROW 01 -->
-      <a-entity id="painting01-01" position="-1.36638 1 -2">
+      <a-entity id="painting01-01" position="-1.36638 1 -0.54186">
         <a-entity mixin="painting_type-a"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
-      
-      <a-entity id="painting01-02" position="0 1 -2">
+
+      <a-entity id="painting01-02" position="0 1 -1.31839">
         <a-entity mixin="painting_type-a"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
-      
-      <a-entity id="painting01-03" position="1.36 1 -2">
+
+      <a-entity id="painting01-03" position="1.36 1 -0.54106">
         <a-entity mixin="painting_type-a"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
       <!-- /ROW 01 -->
-      
+
 
       <!-- ROW 02 -->
-      <a-entity id="painting02-01" position="-1.36 1 -3.273">
+      <a-entity id="painting02-01" position="-1.36 1 -1.07892">
         <a-entity mixin="painting_type-a"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
-      
-      <a-entity id="painting02-02" position="0 1 -3.273">
+
+      <a-entity id="painting02-02" position="0 1 -1.71844">
         <a-entity mixin="painting_type-a"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
-      
-      <a-entity id="painting02-03" position="1.36 1 -3.273">
+
+      <a-entity id="painting02-03" position="1.36 1 -1.06462">
         <a-entity mixin="painting_type-a"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
       <!-- /ROW 02 -->
-      
-        
+
+
 
       <a-entity
         gltf-model="#heart"
@@ -260,7 +260,7 @@
           position="0 0 0"
         ></a-entity>
 
-        <!-- a-entity id="jarbottom" static-body geometry="width: 0.2; height: 0.01; depth: 0.2" position="-0.02066 -0.00547 -0.02189" ></a-entity -->
+        <!-- a-entity id="jarbottom" static-body="sphereRadius: NaN" static-body geometry="width: 0.2; height: 0.01; depth: 0.2" position="-0.02066 -0.00547 -0.02189" ></a-entity -->
       </a-entity>
 
       <a-entity
@@ -288,7 +288,7 @@
         material="color: white"
       ></a-entity>
 
-      <a-entity id="rocks-parent" position="0 -0.3 -1">
+      <a-entity id="rocks-parent" position="0 -0.3 -2.22381">
         <a-entity
           gltf-model="#rock"
           position="0 1.6 0"
@@ -355,7 +355,7 @@
         geometry="primitive:box;width:1;depth:1;height:0.1"
         position="-1.37149 0 -3.36326"
       ></a-entity>
-      
+
       <a-entity
         id="apple"
         dynamic-body
@@ -363,11 +363,11 @@
         material="color:#00FF00"
         position="-1.31061 0.78632 -3.36097"
       ></a-entity>
-      
-      
 
-      
-        
+
+
+
+
         <a-entity
           id="pianokey01parent"
           position="0 0.05 -0.085"
@@ -383,10 +383,10 @@
             sound="src: #tone; on: mouseenter; poolSize: 3;"
           ></a-entity>
         </a-entity>
-        
-      
 
-      
+
+
+
 
       <!-- ######### ######### ######### CAMERA ######### ######### ######### -->
       <!-- ######### ######### ######### CAMERA ######### ######### ######### -->
@@ -437,7 +437,7 @@
         visible="false"
       ></a-plane>
 
-      
+
     </a-scene>
 
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
