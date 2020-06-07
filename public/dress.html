@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+  <script src="js/aframe-google-poly-component.min.js"></script>
+  
+  
+  <title>Choose your avatar for the Otaniemi AR Gallery</title>
+
+  </head> 
+  <body>
+    <a-scene renderer="antialias: true" >
+      
+    <a-assets>
+        
+        <a-asset-item id="balloon-obj" src="https://cdn.glitch.com/5c064e2a-b2d9-48e6-bc9c-5bbf771e005a%2FBalloon.obj?v=1567337200605"></a-asset-item>
+      
+      <a-asset-item id="floorboards" src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2FTexturesCom_WoodPlanksOld0210_2_seamless_S.jpg?v=1590516600801"></a-asset-item>
+        <a-asset-item id="exampleARGallery" src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fgallery_example_v002.glb"></a-asset-item>
+      </a-assets>     
+        
+   
+ 
+<a-entity id="wholeSceneWrapper" position="0 -0.6 0">
+  <a-entity gltf-model="#exampleARGallery"
+            position="2.55 1.013 4.096"
+            scale="0.1 0.1 0.1"></a-entity>
+
+      
+      
+      <a-box id="floor"
+             material="color:#4A403E"
+             position="2.56459 0 3.8933" 
+             width="7" 
+             height="0.1" 
+             depth="7"
+             ></a-box>
+
+      <a-box id="ceiling"
+             material="color:#4A403E"
+             position="2.60941 2.5 3.89619"
+             width="5.1"
+             height="0.1"
+             depth="8"
+             ></a-box> 
+      
+      <a-box id="wall_north"
+             material="color:#4A403E"
+             position="2.579 1.25 0.525"
+             width="5.1"
+             height="2.5"
+             depth="0.1"
+             ></a-box>
+
+      <a-box id="wall_south"
+             material="color:#4A403E"
+             position="2.57211 1.25 6.649"
+             width="5.1"
+             height="2.5"
+             depth="0.1"
+             ></a-box>
+
+      <a-box id="wall_west"
+             material="color:#4A403E"
+             position="0.06379 1.25 3.93879"
+             width="0.1"
+             height="2.5"
+             depth="7.8"
+             ></a-box>
+      
+      <a-box id="wall_east"
+             material="color:#4A403E"
+             position="5.1 1.25 3.95"
+             width="0.1"
+             height="2.5"
+             depth="7.8"
+             ></a-box>
+     
+      
+     
+      
+      
+      
+      
+      
+      
+      <a-entity id="door01_parent" position="0.105 1 2" rotation="0 90 0">
+        <a-box id="door01" position="0 0 0" rotation="0 0 0" width="1" height="2" depth="0.05" material="color:tan"
+               class="clickable"
+                      event-set__showspeechbubble="_event: mouseenter; _target: #message01; visible: true"
+                      event-set__hidespeechbubble="_event: mouseleave; _target: #message01; visible: false"
+               ></a-box>
+        <a-box id="door01_handle1" position="-0.27629 -0.1467 0.05404" rotation="0 0 0" width="0.22" height="0.04" depth="0.02" material="color:silver"></a-box>
+        <a-box id="door01_handle2" position="-0.27629 -0.1467 -0.05404" rotation="0 0 0" width="0.22" height="0.04" depth="0.02" material="color:silver"></a-box>
+        <a-box id="doorway01_top" position="0 0.95 0" rotation="0 0 0" width="1" height="0.1" depth="0.1" material="color:silver"></a-box>
+        <a-box id="doorway01_left" position="-0.5 0 0" rotation="0 0 0" width="0.1" height="2" depth="0.1" material="color:silver"></a-box>
+        <a-box id="doorway01_right" position="0.5 0 0" rotation="0 0 0" width="0.1" height="2" depth="0.1" material="color:silver"></a-box>
+      </a-entity>
+      
+      
+      <a-entity id="message01" position="0.133 2.190 1.982" rotation="0 90 0" visible="true">
+        <a-entity id="message01BG" geometry="primitive: cylinder; radius: 0.35; height: 0.01; segmentsHeight: 1; segmentsRadial: 30" material="color: white" rotation="-90 0 0" scale="1.4 1 1"></a-entity>
+        <a-entity id="message01Text" text="value: Look at this door to enter the gallery; align: center; zOffset: 0.01; wrapCount: 16.120; color: black; width: 0.960"></a-entity>
+      </a-entity> 
+      
+      
+      <!-- Instructions for enterying the gallery -->
+      <a-entity id="message02" position="0.133 1.37809 3.5344" rotation="0 90 0" visible="">
+        <a-entity id="message02BG" geometry="primitive: cylinder; radius: 0.35; height: 0.01; segmentsHeight: 1; segmentsRadial: 30" material="color: white" rotation="-90 0 0" scale="1.4 1 1"></a-entity>
+        <a-entity id="message02Text" text="value: Stand facing an area 3m by 3m and when the gallery page loads press AR; align: center; zOffset: 0.01; wrapCount: 16.12; color: black; width: 0.96"></a-entity>
+      </a-entity>
+      
+       <a-entity id="message03" position="0.133 0.911 3.5344" rotation="0 78 0" visible="">
+        <a-entity id="message03BG" geometry="primitive: cylinder; radius: 0.35; height: 0.01; segmentsHeight: 1; segmentsRadial: 30" material="color: white" rotation="-90 0 0" scale="1.4 1 1"></a-entity>
+        <a-entity id="message03Text" text="value: Art works will in the space through your phone like this; align: center; zOffset: 0.01; wrapCount: 16.12; color: black; width: 0.96"></a-entity>
+      </a-entity>
+  
+  
+  <a-entity id="message04" position="2.319 1.663 4.173" rotation="0 90 0" visible="">
+        <a-entity id="message04BG" geometry="primitive: cylinder; radius: 0.35; height: 0.01; segmentsHeight: 1; segmentsRadial: 30" material="color: white" rotation="-90 0 0" scale="1.4 1 1"></a-entity>
+        <a-entity id="message04Text" text="value: Look at the minature example gallery to your left; align: center; zOffset: 0.01; wrapCount: 16.12; color: black; width: 0.96"></a-entity>
+      </a-entity>
+  
+  <a-entity id="message05" position="2.319 1.663 4.173" rotation="0 90 0" visible="">
+        <a-entity id="message05BG" geometry="primitive: cylinder; radius: 0.35; height: 0.01; segmentsHeight: 1; segmentsRadial: 30" material="color: white" rotation="-90 0 0" scale="1.4 1 1"></a-entity>
+        <a-entity id="message05Text" text="value: Look at the minature example gallery to your left; align: center; zOffset: 0.01; wrapCount: 16.12; color: black; width: 0.96"></a-entity>
+      </a-entity>
+      
+      <!-- AVATARS -->
+      
+      <a-entity id="avatar34"
+                gltf-model="url(https://s3.amazonaws.com/readyplayerbaker/avatars_baked/8f4b6d97-f240-48e0-8cae-5ad8598d895e.glb)"
+                scale="1 1 1"
+                position="2.63605 0.82 1.269"
+                rotation="0 0 0"></a-entity>
+      
+      
+      </a-entity>
+      
+      <!-- position="3 0 4.397"-->
+      <a-entity id="rig" position="3 0 4.397"><a-entity id="camera" camera wasd-controls look-controls position="0 1.6 0"><a-entity id="cursor" raycaster="objects: .clickable" cursor="fuse: true; fuseTimeout: 1000" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;" material="color: #FFF; shader: flat;" animation="property:scale; from: 0.2 0.2 0.2; to: 1 1 1; dur: 150; startEvents: click;" animation__2="startEvents: fusing;property: scale;from: 1 1 1;to: 0.2 0.2 0.2;dur: 1000"></a-entity></a-entity></a-entity>
+      <a-entity id="loadfailuremessage" position="-0.50928 1.5 -1" geometry="primitive: plane" text="value: Error - Please reload the page; align: center; width: 0.96; wrapPixels: 300" material="color: #1b1b1b"></a-entity>
+      <a-entity id="brightness_of_the_whole_scene" light="type: ambient; color: #BBB"></a-entity>
+      <a-entity id="a_light_pointing_in_a_particular_direction" light="type: directional; color: #FFF; intensity: 0.6" position="-0.5 1 1"></a-entity>
+
+      
+  
+    </a-scene>
+    
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+  </body>
+</html>
