@@ -173,11 +173,15 @@
 
         <!-- Mixins -->
 
-
-
          <a-mixin id="painting_type-a"
                  geometry="primitive:box;width:0.01;height:0.25;depth:0.25;"
-                 material="color: #228911"></a-mixin>
+                 material="color: #228911"
+                 ></a-mixin>
+
+         <a-mixin id="painting_type-b"
+                  geometry="primitive:box;width:0.01;height:0.25;depth:0.25;"
+                         ></a-mixin>
+
 
         <a-mixin id="border_type-a"
                  geometry="primitive: torus; radiusTubular: 0.02; segmentsRadial: 4; segmentsTubular: 4; radius:  0.26"
@@ -185,14 +189,12 @@
                  material="color: #954911"
                  scale="0.728 0.728 0.728"></a-mixin>
 
-
-
         <!-- /Mixins -->
 
 
         <!-- Images -->
 
-        <img id="pic001_smilingApple" src="/images/apple_with_smiley_face.jpg">
+        <img id="pic001_smilingApple" src="https://raw.githubusercontent.com/mjelbart/otaniemi_ar_gallery/master/images/apple_with_smiley_face.jpg">
 
         <!-- / Images -->
 
@@ -211,7 +213,7 @@
 
        <!-- ROW 01 -->
       <a-entity id="painting01-01" position="-1.36638 1 -0.54186">
-        <a-entity mixin="painting_type-a"
+        <a-entity mixin="painting_type-b"
         material="src:#pic001_smilingApple;"></a-entity>
         <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
