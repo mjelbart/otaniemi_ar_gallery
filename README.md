@@ -1,6 +1,7 @@
 Welcome to the AR Gallery of Otaniemi!
 =================
-https://mjelbart.github.io/otaniemi_ar_gallery/public/index.html
+[Aframe page](https://mjelbart.github.io/otaniemi_ar_gallery/public/index.html)
+
 
 This is currently a WORK IN PROGRESS. When it's ready you will be able to see the gallery by opening https://otaniemi.glitch.me/ in your browser on your mobile phone.
 
