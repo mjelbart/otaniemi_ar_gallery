@@ -17,6 +17,7 @@
     <script src="/js/spawn-in-circle.component.js"></script>
     <script src="/js/rotation-reader.js"></script>
     <script src="/js/position-reader.js"></script>
+    <script src="/js/spawn-heart.js"></script>
 
     <script src="src=//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
 
@@ -96,13 +97,6 @@
           id="tone"
           crossorigin="anonymous"
           src="https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2FA-Tone-His_Self-1266414414.mp3"
-          preload="auto"
-        ></audio>
-
-        <audio
-          id="tone02"
-          crossorigin="anonymous"
-          src="https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2FElectronic_Chime-KevanGC-495939803.mp3"
           preload="auto"
         ></audio>
 
@@ -189,6 +183,13 @@
                  material="color: #954911"
                  scale="0.728 0.728 0.728"></a-mixin>
 
+       <a-mixin id="heart_mixin"
+                 gltf-model="#heart"
+                 position="-0.18 1.64 -1.495"
+                 scale="0.02 0.02 0.02"
+                 dynamic-body="shape:  sphere"
+               ></a-mixin>
+
         <!-- /Mixins -->
 
 
@@ -250,24 +251,29 @@
 
 
       <a-entity
+      id="heart01"
         gltf-model="#heart"
-        position="-0.18 .64 -1.495"
+        position="-0.18 0.64 -1.495"
         scale="0.02 0.02 0.02"
-        dynamic-body
+        dynamic-body="shape:  sphere"
       ></a-entity>
 
       <a-entity
+      id="heart02"
         gltf-model="#heart"
-        position="-0.18 .64 -1.495"
+        position="-0.18 1.64 -1.495"
         scale="0.02 0.02 0.02"
-        dynamic-body
+        dynamic-body="shape:  sphere"
       ></a-entity>
 
-      <a-entity id="jar-parent" position="-0.18 0.567 -1.495">
+      <a-entity id="jar-parent" position="-0.10841 0.65909 -1.29057">
         <a-entity
+          id="jar02"
           gltf-model="#jar2"
           scale="0.004 0.004 0.004"
           position="0 0 0"
+          class="clickable"
+          spawn-heart
         ></a-entity>
 
         <!-- a-entity id="jarbottom" static-body="sphereRadius: NaN" static-body geometry="width: 0.2; height: 0.01; depth: 0.2" position="-0.02066 -0.00547 -0.02189" ></a-entity -->
@@ -277,15 +283,16 @@
         id="jarbottom"
         static-body
         geometry="width: 0.2; height: 0.01; depth: 0.2"
-        position="-0.201 0.425 -1.516"
+        position="-0.10841 0.65909 -1.29057"
       ></a-entity>
 
       <a-entity
-        visible="false"
-        id="platform3"
+        id="invisible_floor"
+        static-body="sphereRadius: NaN"
+        visible="true"
         static-body
         geometry="primitive:box;width:2;depth:2;height:0.1"
-        position="0 .4 -1.3"
+        position="0 -0.05924 -1.3"
         material="color: grey"
       ></a-entity>
 
@@ -456,20 +463,42 @@
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
 
     <div class="hoverbutton" style="position:fixed;top:20px;right:20px;">
-      <button onclick="spawnCube()">Drop a Cube</button>
+      <button onclick="spawnHeart()">Drop a Cube</button>
     </div>
 
     <script>
+      /*
       function spawnCube() {
-        var box = document.createElement("a-box");
-        console.log(box);
         var el = document.getElementById("player");
         var pos = el.getAttribute("position");
-        box.setAttribute("position", pos);
-        pos.z = 1;
+        console.log("initial");
+        console.log(pos);
+        var boxPos = pos;
+        var box = document.createElement("a-box");
+        console.log("post box createElement");
+        console.log(pos);
+        console.log(box);
+        console.log("posBox");
+        console.log(boxPos);
+        boxPos.z -= 2;
+        console.log("post boxPosZ adjustment");
+        console.log(pos);
+        console.log(boxPos);
+        box.setAttribute("position", boxPos);
+        console.log("post box.setAttribute position: ");
+        console.log(pos);
         box.setAttribute("scale", "0.1 0.1 0.1");
         box.setAttribute("dynamic-body", "shape:  box");
         document.querySelector("a-scene").appendChild(box);
+      }
+      */
+    </script>
+
+    <script>
+      function spawnHeart() {
+        var heart = document.createElement("a-entity");
+        heart.setAttribute("mixin", "heart_mixin");
+        document.querySelector("a-scene").appendChild(heart);
       }
     </script>
 
