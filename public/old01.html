@@ -22,10 +22,9 @@
     
     <script src="/js/rotation-reader.js"></script>
     
-    <script src="/js/gun.component.js"></script>
-    <script src="/js/remove-in-seconds.component.js"></script>
-    <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
-    
+    <script src="/js/position-reader.js"></script>
+    <script src="/js/spawn-heart.js"></script>
+
     <script src="src=//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
     <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
@@ -146,26 +145,7 @@
           src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwave02.obj"
         ></a-asset-item>
         
-        <a-asset-item
-          id="gallerytest"
-          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fgallery%20test3.glb"
-        ></a-asset-item>
         
-        
-        <a-asset-item
-          id="sculpt01"
-          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fsculpt01.glb"
-        ></a-asset-item>
-        
-        <a-asset-item
-                      id="stump-asset"
-                      src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fstump01.glb"
-        ></a-asset-item>
-        
-        <a-asset-item
-                      id="poster-asset"
-                      src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fposter01.glb"
-        ></a-asset-item>
         
         
 
@@ -174,13 +154,13 @@
         <!-- Avatar -->
         <template id="avatar-template">
           <a-entity class="avatar">
-            <a-sphere
+            <!-- a-sphere
               class="head"
               color="#5985ff"
               scale="0.45 0.5 0.4"
               random-color
-            ></a-sphere>
-            <!-- a-entity gltf-model="#gtlfavatar"></a-entity -->
+            ></a-sphere -->
+            <a-entity gltf-model="#gtlfavatar"></a-entity>
             <a-entity class="face" position="0 0.05 0">
               <a-sphere
                 class="eye"
@@ -210,15 +190,6 @@
               </a-sphere>
             </a-entity>
           </a-entity>
-        </template>
-
-        <template id="handwave-template">
-          <a-entity class="bullet"
-                    obj-model="obj: #handwave;" 
-                    material="color:#d51010"
-                    scale="1.6 1.6 1.6"
-                    animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate;"
-                    ></a-entity>
         </template>
 
         <!-- /Templates -->
@@ -251,14 +222,6 @@
           scale="0.02 0.02 0.02"
           dynamic-body="shape:  sphere"
         ></a-mixin>
-        
-        <a-mixin
-                 id="mbox"
-                 geometry="primitive:box;
-                          width:0.1;
-                          height:0.1;
-                          depth:0.1;"
-                 ></a-mixin>
 
         <!-- /Mixins -->
 
@@ -272,177 +235,210 @@
         <!-- / Images -->
       </a-assets>
       
-      <!-- The following entity should encapsulate most scene elements except the player. -->
-      <!-- Normal camera height is 1.6 metres but enter AR seems to be setting the camera to 1.2 metres high. -->
-      <a-entity position="0 -0.4 0">
-        
-        <a-entity id="stump" gltf-model="#stump-asset" position="-1 0.3 -1" rotation="0 0 0" scale="1 1 1"></a-entity>
-        
-        <a-entity id="poster01" gltf-model="#poster-asset" position="1.09539 1.35222 -0.35898" rotation="0 -24.218353042384766 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster02" gltf-model="#poster-asset" position="1.07512 1.3519 -0.06037" rotation="0 17.18472314935878 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster03" gltf-model="#poster-asset" position="1.04808 1.35867 0.18295" rotation="0 -33.905923442456725 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster04" gltf-model="#poster-asset" position="1.03456 1.35896 0.46682" rotation="0 24.132409373115145 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster05" gltf-model="#poster-asset" position="1.02105 1.36296 0.71013" rotation="0 -29.322834039205272 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster06" gltf-model="#poster-asset" position="0.33896 1.34071 1.32887" rotation="0 -90 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster07" gltf-model="#poster-asset" position="0.00534 1.55327 1.33168" rotation="0 -90 0" scale="1 1 1"></a-entity>
-        <a-entity id="poster08" gltf-model="#poster-asset" position="-0.32827 1.28327 1.33167" rotation="0 -90 0" scale="1 1 1"></a-entity>
+      
+      
+      <a-entity id="title" obj-model="obj: #title_asset;" position="-0.640 1.599 -2.655" rotation="90 0 0" scale="0.4 0.4 0.4"></a-entity>
+      
+      <a-entity id="wave" obj-model="obj: #handwave;" material="color:#d51010" position="-0.4 1 -2.655" rotation="0 0 0" scale="1 1 1"
+                animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate;"></a-entity>
+      
+      
+      <a-entity id="houseplant" gltf-model="#houseplanty" position="-0.640 0.3 -2.655" rotation="0 0 0" scale="1 1 1"></a-entity>
+      
+      
+      
+      
+      
 
-        
-      
-      <!-- a-entity id="gallerytest01" gltf-model="#gallerytest" position="0 0 0" rotation="0 -90 0" scale="1 1 1"></a-entity -->
-        
-        
-        <a-entity text="value: Welcome to the Otaniemi AR Gallery! \n These lovely works have been crafted by residents of the Otaniemi area and displayed here with the hope brightening your day a little.; 
-                        width: 0.25; 
-                        wrapCount: 18.48"
-                  position="1.081 1.414 -0.352"
-                  rotation="0 -113 0"></a-entity>
-      
-      <a-entity position="-0.74 0 -1.5" visible="false">
-      <a-entity mixin="mbox" position="0 0.05 0"></a-entity>
-      <a-entity mixin="mbox" position="0 0.25 0"></a-entity>
-      <a-entity mixin="mbox" position="0 0.45 0"></a-entity>
-      <a-entity mixin="mbox" position="0 0.65 0"></a-entity>
-      <a-entity mixin="mbox" position="0 0.85 0"></a-entity>
-      <a-entity mixin="mbox" position="0 1.05 0"></a-entity>
-      <a-entity mixin="mbox" position="0 1.25 0"></a-entity>
-      <a-entity mixin="mbox" position="0 1.45 0"></a-entity>
-      <a-entity mixin="mbox" position="0 1.65 0"></a-entity>
-      <a-entity mixin="mbox" position="0 1.85 0"></a-entity>
-      <a-entity mixin="mbox" position="0 2.05 0"></a-entity>
+      <a-entity
+        id="cat-gltf-model-example"
+        gltf-model="url(https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2Fpaint3dbigcatcoloured.glb?v=1563789206864)"
+        position="1.03194 100 -5.00506"
+      ></a-entity>
+
+      <!-- painting positioning is row, column e.g. 01-02 is row 01, column 02 -->
+
+      <!-- ROW 01 -->
+      <a-entity id="painting01-01" position="-1.36638 1 -0.54186">
+        <a-entity
+          mixin="painting_type-b"
+          material="src:#pic001_smilingApple;"
+        ></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
       </a-entity>
-        
-        
-        <a-entity id="floating_balls" 
-                  position="-1.05 0 -0.839">
-          <a-entity id="sphere01"
-                    geometry="primitive:sphere;
-                              radius:0.1"
-                    position="0.136 1.778 0.024"
-                    material="color:pink"
-                    animation="property:position;
-                               from:0.136 1.778 0.024;
-                               to:0.136 1.978 0.024;
-                               loop:true;
-                               dir: alternate;
-                               easing: easeInOutQuad;
-                               dur: 8888;
-                               "
-                    animation__color="property: components.material.material.color; 
-                                      type: color; 
-                                      to: red; 
-                                      loop:true; 
-                                      dur: 8888;
-                                      dir: alternate;
-                                      easing: easeInOutQuad"
-                    class="clickable"
-                    ></a-entity>
-          
-          <a-entity id="sphere02"
-                    geometry="primitive:sphere;
-                              radius:0.1"
-                    position="-0.014 1.433 -0.17"
-                    material="color:orange"
-                    animation="property:position;
-                               from:-0.014 1.433 -0.17;
-                               to:-0.014 1.633 -0.17;
-                               loop:true;
-                               dir: alternate;
-                               easing: easeInOutQuad;
-                               dur: 9999;
-                               "
-                    animation__color="property: components.material.material.color; 
-                                      type: color; 
-                                      to: blue; 
-                                      loop:true; 
-                                      dur: 9999;
-                                      dir: alternate;
-                                      easing: easeInOutQuad"
-                    class="clickable"
-                    ></a-entity>
-          
-          <a-entity id="sphere03"
-                    geometry="primitive:sphere;
-                              radius:0.1"
-                    position="-0.119 1.638 0.054"
-                    material="color:green"
-                    animation="property:position;
-                               from:-0.119 1.638 0.054;
-                               to:-0.119 1.838 0.054;
-                               loop:true;
-                               dir: alternate;
-                               easing: easeInOutQuad;
-                               dur: 9454;
-                               "
-                    animation__color="property: components.material.material.color; 
-                                      type: color; 
-                                      to: yellow; 
-                                      loop:true; 
-                                      dur: 9454;
-                                      dir: alternate;
-                                      easing: easeInOutQuad"
-                    class="clickable"
-                    ></a-entity>
-          
-          
 
-        </a-entity>
-      
-      
-      <a-entity id="pedestal"
-                geometry="primitive:box;
-                          width:0.3;
-                          depth:0.3;
-                          height:0.84;"
-                position="0.379 0.42 0.582"
-                material="color:#f2f3f4"
-                >
-        </a-entity>
-        <a-entity gltf-model="#sculpt01"
-                  position="0.122 0 -0.315"
-                  ></a-entity>
-      
-      <a-entity visible="false" id="title" obj-model="obj: #title_asset;" position="-0.640 1.599 -2.655" rotation="90 0 0" scale="0.4 0.4 0.4"></a-entity>
-      
-      <!-- a-entity id="wave" obj-model="obj: #handwave;" material="color:#d51010" position="-0.4 1 -2.655" rotation="0 0 0" scale="1 1 1"
-                animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate;"></a-entity -->
-      
-      
-      <a-entity id="houseplant" gltf-model="#houseplanty" position="-0.640 10 -2.655" rotation="0 0 0" scale="1 1 1"></a-entity>
-      
+      <a-entity id="painting01-02" position="0 1 -1.31839">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
 
+      <a-entity id="painting01-03" position="1.36 1 -0.54106">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+      <!-- /ROW 01 -->
+
+      <!-- ROW 02 -->
+      <a-entity id="painting02-01" position="-1.36 1 -1.07892">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+
+      <a-entity id="painting02-02" position="0 1 -1.71844">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+
+      <a-entity id="painting02-03" position="1.36 1 -1.06462">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+      <!-- /ROW 02 -->
 
       <a-entity
         id="heart01"
         gltf-model="#heart"
-        position="-0.18 20 -1.495"
+        position="-0.18 0.64 -1.495"
         scale="0.02 0.02 0.02"
         dynamic-body="shape:  sphere"
       ></a-entity>
 
+      <a-entity
+        id="heart02"
+        gltf-model="#heart"
+        position="-0.18 1.64 -1.495"
+        scale="0.02 0.02 0.02"
+        dynamic-body="shape:  sphere"
+      ></a-entity>
+
+      <a-entity id="jar-parent" position="-0.10841 0.65909 -1.29057">
+        <a-entity
+          id="jar02"
+          gltf-model="#jar2"
+          scale="0.004 0.004 0.004"
+          position="0 0 0"
+          class="clickable"
+          spawn-heart
+        ></a-entity>
 
         <!-- a-entity id="jarbottom" static-body="sphereRadius: NaN" static-body geometry="width: 0.2; height: 0.01; depth: 0.2" position="-0.02066 -0.00547 -0.02189" ></a-entity -->
-      
+      </a-entity>
 
-      
+      <a-entity
+        id="jarbottom"
+        static-body
+        geometry="width: 0.2; height: 0.01; depth: 0.2"
+        position="-0.10841 0.65909 -1.29057"
+      ></a-entity>
+
+      <a-entity
+        id="invisible_floor"
+        static-body="sphereRadius: NaN"
+        visible="true"
+        geometry="primitive:box;width:2;depth:2;height:0.1"
+        position="0 -0.05924 -1.3"
+        material="color: grey"
+      ></a-entity>
+
+      <a-entity
+        visible="false"
+        id="platform2"
+        static-body
+        geometry="primitive:box;width:5;depth:5;height:0.1"
+        position="0 0 0"
+        material="color: white"
+      ></a-entity>
+
+      <a-entity id="rocks-parent" position="0 -0.3 -2.22381">
+        <a-entity
+          gltf-model="#rock"
+          position="0 1.6 0"
+          scale="0.1 0.1 0.1"
+          animation="property: position;
+                           from: 0 1.6 0;
+                           to: 0 1.62 0;
+                           dur: 2000;
+                           easing: easeInOutQuad;
+                           loop: true;
+                           dir: alternate;
+                           "
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#rock"
+          position="0 1.5 0"
+          scale="0.1 0.1 0.1"
+          rotation="30 260 80"
+          animation="property: position;
+                           from: 0 1.4 0;
+                           to: 0 1.42 0;
+                           dur: 2200;
+                           easing: easeInOutQuad;
+                           loop: true;
+                           dir: alternate;"
+          animation_rotate="property: rotation;
+                           from: 30 260 80;
+                           to: 30 259 80;
+                           dur: 2200;
+                           easing: linear;
+                           loop: true;
+                           "
+        ></a-entity>
+
+        <a-entity
+          id="tabletparentrotator"
+          gltf-model="#rock"
+          position="0 1.5 0"
+          scale="0.1 0.1 0.1"
+          rotation="180 160 130"
+          animation="property: position;
+                           from: 0 1.2 0;
+                           to: 0 1.22 0;
+                           dur: 2200;
+                           easing: easeInOutQuad;
+                           loop: true;
+                           dir: alternate;
+                           "
+        ></a-entity>
+      </a-entity>
+
+      <a-entity
+        gltf-model="#rock"
+        position="-0.6 0.6 -1.3"
+        scale="0.1 0.1 0.1"
+        rotation="180 160 130"
+        dynamic-body=""
+      ></a-entity>
+
+      <a-entity
+        id="platform"
+        static-body
+        geometry="primitive:box;width:1;depth:1;height:0.1"
+        position="-1.37149 0 -3.36326"
+                visible="false"
+      ></a-entity>
+
+
+      <a-entity
+        id="pianokey01parent"
+        position="0 100.05 -0.085"
+        animation="property: rotation; startEvents: mouseenter; from:0 0 0; to: 7 0 0; loop: 1; dur: 200; dir: alternate; easing:linear;"
+      >
+        <a-entity
+          id="pianokey01"
+          class="clickable"
+          geometry="primitive:box;width:0.05;depth:0.2;height:0.03"
+          material="color:#00FF00"
+          position="0 0.015 0.08"
+          animation="property: material.color; startEvents: mouseenter; to:#8888FF; loop: 1; dur: 200; dir: alternate; easing:linear;"
+          sound="src: #tone; on: mouseenter; poolSize: 3;"
+        ></a-entity>
+      </a-entity>
       
       
       <!--a-entity link="href: https://naf-shootertest.glitch.me; title: Room 2; image: #pic001_smilingApple;" position="-1 1.6 0"></a-entity -->
-      <!-- a-link href="https://naf-shootertest.glitch.me" title="Room 2" position="-1 1.6 2.5"></a-link -->
+      <a-link href="https://naf-shootertest.glitch.me" title="Room 2" position="-1 1.6 0"></a-link>
       
-      
-      <a-plane
-        height="15"
-        width="15"
-        position="0 0 -3"
-        rotation="-90 0 0"
-        shadow="receive: true"
-        ar-shadows="opacity: 0.3"
-        visible="false"
-      ></a-plane>
-      
-      </a-entity>
-    
       
 
       <!-- ######### ######### ######### CAMERA ######### ######### ######### -->
@@ -452,14 +448,12 @@
       <a-entity id="rig">
         <a-entity
           id="player"
-                  
           camera
           networked="template:#avatar-template;attachTemplateToLocal:false;"
-          position="0 1.2 0"
+          position="0 1.6 0"
           rotation-reader="target: tabletparentrotator"
           wasd-controls
           look-controls
-                  gun="bulletTemplate:#handwave-template"
         >
           <a-cursor
             id="cursor"
@@ -468,10 +462,9 @@
             animation="property:scale; from: 0.2 0.2 0.2; to: 1 1 1; dur: 150; startEvents: click;"
             animation__2="startEvents: fusing;property: scale;from: 1 1 1;to: 0.2 0.2 0.2;dur: 1000"
           ></a-cursor>
-          
+          <a-entity id="spawner" position="0 0 -1.5"></a-entity>
           <a-sphere class="head" visible="false" random-color></a-sphere>
         </a-entity>
-        <a-entity id="tabletparentrotator" position="0 1.6 0" rotation="-45 0 0" geometry="primitive:box;width:0.05;depth:0.05;height:0.05;"></a-entity>
       </a-entity>
       <!-- removed this line from player as entering AR mode centres you - spawn-in-circle="radius:3" -->
 
@@ -487,7 +480,15 @@
         position="2 3 1.5"
       ></a-light>
       <!-- The follwing shadow-receiving plane is only visible in AR mode. -->
-      
+      <a-plane
+        height="15"
+        width="15"
+        position="0 0 -3"
+        rotation="-90 0 0"
+        shadow="receive: true"
+        ar-shadows="opacity: 0.3"
+        visible="false"
+      ></a-plane>
     </a-scene>
 
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
@@ -495,8 +496,45 @@
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
 
-    
+    <div class="hoverbutton" style="position:fixed;top:20px;right:20px;">
+      <button onclick="spawnHeart()">Drop a Cube</button>
+    </div>
 
+    <script>
+      /*
+      function spawnCube() {
+        var el = document.getElementById("player");
+        var pos = el.getAttribute("position");
+        console.log("initial");
+        console.log(pos);
+        var boxPos = pos;
+        var box = document.createElement("a-box");
+        console.log("post box createElement");
+        console.log(pos);
+        console.log(box);
+        console.log("posBox");
+        console.log(boxPos);
+        boxPos.z -= 2;
+        console.log("post boxPosZ adjustment");
+        console.log(pos);
+        console.log(boxPos);
+        box.setAttribute("position", boxPos);
+        console.log("post box.setAttribute position: ");
+        console.log(pos);
+        box.setAttribute("scale", "0.1 0.1 0.1");
+        box.setAttribute("dynamic-body", "shape:  box");
+        document.querySelector("a-scene").appendChild(box);
+      }
+      */
+    </script>
+
+    <script>
+      function spawnHeart() {
+        var heart = document.createElement("a-entity");
+        heart.setAttribute("mixin", "heart_mixin");
+        document.querySelector("a-scene").appendChild(heart);
+      }
+    </script>
 
     <script>
       // Define custom schema for syncing avatar color, set by random-color
