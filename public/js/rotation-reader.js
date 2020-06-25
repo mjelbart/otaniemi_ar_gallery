@@ -4,7 +4,7 @@ AFRAME.registerComponent('rotation-reader', {
   },
   init: function () {
     // Set up the tick throttling.
-    this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
+    this.tick = AFRAME.utils.throttleTick(this.tick, 10, this);
   },
 
   /**
