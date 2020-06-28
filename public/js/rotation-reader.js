@@ -4,7 +4,7 @@ AFRAME.registerComponent('rotation-reader', {
   },
   init: function () {
     // Set up the tick throttling.
-    this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
+    this.tick = AFRAME.utils.throttleTick(this.tick, 10, this);
   },
 
   /**
@@ -16,8 +16,10 @@ AFRAME.registerComponent('rotation-reader', {
     var rotationTmp = this.rotationTmp = this.rotationTmp || {x: -45, y: 0, z: 0};
     var rotation = el.getAttribute('rotation');
     rotationTmp.y = rotation.y + 0.1;
+    if (el){
     document.getElementById(this.data.target).setAttribute('rotation', rotationTmp);
-    
+    }    
+
 
   }
 });

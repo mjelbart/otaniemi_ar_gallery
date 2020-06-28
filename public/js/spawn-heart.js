@@ -11,6 +11,7 @@ AFRAME.registerComponent('spawn-heart', {
 
     var heart = document.createElement("a-entity");
     heart.setAttribute("mixin", "heart_mixin");
+    heart.setAttribute("position", "1 1.6 -2");
     document.querySelector("a-scene").appendChild(heart);
 
 

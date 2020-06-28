@@ -1,0 +1,575 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Otaniemi AR Gallery</title>
+    <meta
+      name="description"
+      content="An AR Gallery to display art by people living around the Otaniemi area"
+    />
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+    <!-- script src="easyrtc/easyrtc.js"></script -->
+    <!-- script src="https://unpkg.com/networked-aframe@^0.6.0/dist/networked-aframe.min.js"></script-->
+    <!-- script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script -->
+    <script src="https://unpkg.com/networked-aframe@^0.7.1/dist/networked-aframe.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    
+    <script src="/js/rotation-reader.js"></script>
+    
+    <script src="/js/position-reader.js"></script>
+    <script src="/js/spawn-heart.js"></script>
+
+    <script src="src=//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+
+    <!-- AR scripts -->
+
+    <script>
+      if (
+        window.location.protocol == "http:" &&
+        window.location.hostname != "localhost" &&
+        window.location.hostname != "127.0.0.1" &&
+        window.location.hostname != "[::1]"
+      ) {
+        window.location = window.location.href.replace("http:", "https:");
+      }
+    </script>
+
+    <script>
+      AFRAME.registerComponent("hide-in-ar-mode", {
+        init: function() {
+          this.el.sceneEl.addEventListener("enter-vr", ev => {
+            this.wasVisible = this.el.getAttribute("visible");
+            if (this.el.sceneEl.is("ar-mode")) {
+              this.el.setAttribute("visible", false);
+            }
+          });
+          this.el.sceneEl.addEventListener("exit-vr", ev => {
+            if (this.wasVisible) this.el.setAttribute("visible", true);
+          });
+        }
+      });
+      AFRAME.registerComponent("ar-shadows", {
+        schema: { opacity: { default: 0.3 } },
+        init: function() {
+          this.el.sceneEl.addEventListener("enter-vr", ev => {
+            this.wasVisible = this.el.getAttribute("visible");
+            if (this.el.sceneEl.is("ar-mode")) {
+              this.savedMaterial = this.el.object3D.children[0].material;
+              this.el.object3D.children[0].material = new THREE.ShadowMaterial();
+              this.el.object3D.children[0].material.opacity = this.data.opacity;
+              this.el.setAttribute("visible", true);
+            }
+          });
+          this.el.sceneEl.addEventListener("exit-vr", ev => {
+            if (this.savedMaterial) {
+              this.el.object3D.children[0].material = this.savedMaterial;
+              this.savedMaterial = null;
+            }
+            if (!this.wasVisible) this.el.setAttribute("visible", false);
+          });
+        }
+      });
+    </script>
+
+    <!-- I may need this alternate script https://raw.githubusercontent.com/TopRankMarketing/aframe-google-poly-component/master/aframe-google-poly-component.min.js -->
+  </head>
+  <body>
+    <a-scene
+      networked-scene="
+      room: basic;
+      debug: true;
+    "
+    >
+      <a-assets>
+        <img
+          id="grid"
+          src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png"
+          crossorigin="anonymous"
+        />
+        <img
+          id="sky"
+          src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg"
+          crossorigin="anonymous"
+        />
+
+        <audio
+          id="tone"
+          crossorigin="anonymous"
+          src="https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2FA-Tone-His_Self-1266414414.mp3"
+          preload="auto"
+        ></audio>
+
+        <a-asset-item
+          id="rock"
+          src="https://cdn.glitch.com/a25c73b8-5213-4a83-8d22-fb99eb1be48d%2Frock.glb"
+          crossorigin="anonymous"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="jar2"
+          src="https://cdn.glitch.com/a25c73b8-5213-4a83-8d22-fb99eb1be48d%2Fjar_by_google-from-poly-cDR6hzfYrcp-(modified)v02.glb"
+          crossorigin="anonymous"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="heart"
+          src="https://cdn.glitch.com/a25c73b8-5213-4a83-8d22-fb99eb1be48d%2Fheart_by_jelz_02.glb"
+          crossorigin="anonymous"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="gtlfavatar"
+          src="https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2Fpaint3dbigcatcoloured.glb"
+        ></a-asset-item>
+        
+        <a-asset-item
+          id="title_asset"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2FTitle.obj"
+        ></a-asset-item>
+        
+        <a-asset-item
+          id="houseplanty"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2FHouseplant_by_GooglePoly.glb"
+        ></a-asset-item>
+        
+        <a-asset-item
+          id="handwave"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwave02.obj"
+        ></a-asset-item>
+        
+        
+        
+        
+
+        <!-- Templates -->
+
+        <!-- Avatar -->
+        <template id="avatar-template">
+          <a-entity class="avatar">
+            <!-- a-sphere
+              class="head"
+              color="#5985ff"
+              scale="0.45 0.5 0.4"
+              random-color
+            ></a-sphere -->
+            <a-entity gltf-model="#gtlfavatar"></a-entity>
+            <a-entity class="face" position="0 0.05 0">
+              <a-sphere
+                class="eye"
+                color="#efefef"
+                position="0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere
+                  class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere
+                class="eye"
+                color="#efefef"
+                position="-0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12"
+              >
+                <a-sphere
+                  class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </template>
+
+        <!-- /Templates -->
+
+        <!-- Mixins -->
+
+        <a-mixin
+          id="painting_type-a"
+          geometry="primitive:box;width:0.01;height:0.25;depth:0.25;"
+          material="color: #228911"
+        ></a-mixin>
+
+        <a-mixin
+          id="painting_type-b"
+          geometry="primitive:box;width:0.01;height:0.25;depth:0.25;"
+        ></a-mixin>
+
+        <a-mixin
+          id="border_type-a"
+          geometry="primitive: torus; radiusTubular: 0.02; segmentsRadial: 4; segmentsTubular: 4; radius:  0.26"
+          rotation="0 90 45"
+          material="color: #954911"
+          scale="0.728 0.728 0.728"
+        ></a-mixin>
+
+        <a-mixin
+          id="heart_mixin"
+          gltf-model="#heart"
+          position="-0.18 1.64 -1.495"
+          scale="0.02 0.02 0.02"
+          dynamic-body="shape:  sphere"
+        ></a-mixin>
+
+        <!-- /Mixins -->
+
+        <!-- Images -->
+
+        <img
+          id="pic001_smilingApple"
+          src="https://raw.githubusercontent.com/mjelbart/otaniemi_ar_gallery/master/images/apple_with_smiley_face.jpg"
+        />
+
+        <!-- / Images -->
+      </a-assets>
+      
+      
+      
+      <a-entity id="title" obj-model="obj: #title_asset;" position="-0.640 1.599 -2.655" rotation="90 0 0" scale="0.4 0.4 0.4"></a-entity>
+      
+      <a-entity id="wave" obj-model="obj: #handwave;" material="color:#d51010" position="-0.4 1 -2.655" rotation="0 0 0" scale="1 1 1"
+                animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate;"></a-entity>
+      
+      
+      <a-entity id="houseplant" gltf-model="#houseplanty" position="-0.640 0.3 -2.655" rotation="0 0 0" scale="1 1 1"></a-entity>
+      
+      
+      
+      
+      
+
+      <a-entity
+        id="cat-gltf-model-example"
+        gltf-model="url(https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2Fpaint3dbigcatcoloured.glb?v=1563789206864)"
+        position="1.03194 100 -5.00506"
+      ></a-entity>
+
+      <!-- painting positioning is row, column e.g. 01-02 is row 01, column 02 -->
+
+      <!-- ROW 01 -->
+      <a-entity id="painting01-01" position="-1.36638 1 -0.54186">
+        <a-entity
+          mixin="painting_type-b"
+          material="src:#pic001_smilingApple;"
+        ></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+
+      <a-entity id="painting01-02" position="0 1 -1.31839">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+
+      <a-entity id="painting01-03" position="1.36 1 -0.54106">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+      <!-- /ROW 01 -->
+
+      <!-- ROW 02 -->
+      <a-entity id="painting02-01" position="-1.36 1 -1.07892">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+
+      <a-entity id="painting02-02" position="0 1 -1.71844">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+
+      <a-entity id="painting02-03" position="1.36 1 -1.06462">
+        <a-entity mixin="painting_type-a"></a-entity>
+        <a-entity mixin="border_type-a"></a-entity>
+      </a-entity>
+      <!-- /ROW 02 -->
+
+      <a-entity
+        id="heart01"
+        gltf-model="#heart"
+        position="-0.18 0.64 -1.495"
+        scale="0.02 0.02 0.02"
+        dynamic-body="shape:  sphere"
+      ></a-entity>
+
+      <a-entity
+        id="heart02"
+        gltf-model="#heart"
+        position="-0.18 1.64 -1.495"
+        scale="0.02 0.02 0.02"
+        dynamic-body="shape:  sphere"
+      ></a-entity>
+
+      <a-entity id="jar-parent" position="-0.10841 0.65909 -1.29057">
+        <a-entity
+          id="jar02"
+          gltf-model="#jar2"
+          scale="0.004 0.004 0.004"
+          position="0 0 0"
+          class="clickable"
+          spawn-heart
+        ></a-entity>
+
+        <!-- a-entity id="jarbottom" static-body="sphereRadius: NaN" static-body geometry="width: 0.2; height: 0.01; depth: 0.2" position="-0.02066 -0.00547 -0.02189" ></a-entity -->
+      </a-entity>
+
+      <a-entity
+        id="jarbottom"
+        static-body
+        geometry="width: 0.2; height: 0.01; depth: 0.2"
+        position="-0.10841 0.65909 -1.29057"
+      ></a-entity>
+
+      <a-entity
+        id="invisible_floor"
+        static-body="sphereRadius: NaN"
+        visible="true"
+        geometry="primitive:box;width:2;depth:2;height:0.1"
+        position="0 -0.05924 -1.3"
+        material="color: grey"
+      ></a-entity>
+
+      <a-entity
+        visible="false"
+        id="platform2"
+        static-body
+        geometry="primitive:box;width:5;depth:5;height:0.1"
+        position="0 0 0"
+        material="color: white"
+      ></a-entity>
+
+      <a-entity id="rocks-parent" position="0 -0.3 -2.22381">
+        <a-entity
+          gltf-model="#rock"
+          position="0 1.6 0"
+          scale="0.1 0.1 0.1"
+          animation="property: position;
+                           from: 0 1.6 0;
+                           to: 0 1.62 0;
+                           dur: 2000;
+                           easing: easeInOutQuad;
+                           loop: true;
+                           dir: alternate;
+                           "
+        ></a-entity>
+
+        <a-entity
+          gltf-model="#rock"
+          position="0 1.5 0"
+          scale="0.1 0.1 0.1"
+          rotation="30 260 80"
+          animation="property: position;
+                           from: 0 1.4 0;
+                           to: 0 1.42 0;
+                           dur: 2200;
+                           easing: easeInOutQuad;
+                           loop: true;
+                           dir: alternate;"
+          animation_rotate="property: rotation;
+                           from: 30 260 80;
+                           to: 30 259 80;
+                           dur: 2200;
+                           easing: linear;
+                           loop: true;
+                           "
+        ></a-entity>
+
+        <a-entity
+          id="tabletparentrotator"
+          gltf-model="#rock"
+          position="0 1.5 0"
+          scale="0.1 0.1 0.1"
+          rotation="180 160 130"
+          animation="property: position;
+                           from: 0 1.2 0;
+                           to: 0 1.22 0;
+                           dur: 2200;
+                           easing: easeInOutQuad;
+                           loop: true;
+                           dir: alternate;
+                           "
+        ></a-entity>
+      </a-entity>
+
+      <a-entity
+        gltf-model="#rock"
+        position="-0.6 0.6 -1.3"
+        scale="0.1 0.1 0.1"
+        rotation="180 160 130"
+        dynamic-body=""
+      ></a-entity>
+
+      <a-entity
+        id="platform"
+        static-body
+        geometry="primitive:box;width:1;depth:1;height:0.1"
+        position="-1.37149 0 -3.36326"
+                visible="false"
+      ></a-entity>
+
+
+      <a-entity
+        id="pianokey01parent"
+        position="0 100.05 -0.085"
+        animation="property: rotation; startEvents: mouseenter; from:0 0 0; to: 7 0 0; loop: 1; dur: 200; dir: alternate; easing:linear;"
+      >
+        <a-entity
+          id="pianokey01"
+          class="clickable"
+          geometry="primitive:box;width:0.05;depth:0.2;height:0.03"
+          material="color:#00FF00"
+          position="0 0.015 0.08"
+          animation="property: material.color; startEvents: mouseenter; to:#8888FF; loop: 1; dur: 200; dir: alternate; easing:linear;"
+          sound="src: #tone; on: mouseenter; poolSize: 3;"
+        ></a-entity>
+      </a-entity>
+      
+      
+      <!--a-entity link="href: https://naf-shootertest.glitch.me; title: Room 2; image: #pic001_smilingApple;" position="-1 1.6 0"></a-entity -->
+      <a-link href="https://naf-shootertest.glitch.me" title="Room 2" position="-1 1.6 0"></a-link>
+      
+      
+
+      <!-- ######### ######### ######### CAMERA ######### ######### ######### -->
+      <!-- ######### ######### ######### CAMERA ######### ######### ######### -->
+      <!-- ######### ######### ######### CAMERA ######### ######### ######### -->
+
+      <a-entity id="rig">
+        <a-entity
+          id="player"
+          camera
+          networked="template:#avatar-template;attachTemplateToLocal:false;"
+          position="0 1.6 0"
+          rotation-reader="target: tabletparentrotator"
+          wasd-controls
+          look-controls
+        >
+          <a-cursor
+            id="cursor"
+            raycaster="objects: .clickable"
+            cursor="fuse: true; fuseTimeout: 1000"
+            animation="property:scale; from: 0.2 0.2 0.2; to: 1 1 1; dur: 150; startEvents: click;"
+            animation__2="startEvents: fusing;property: scale;from: 1 1 1;to: 0.2 0.2 0.2;dur: 1000"
+          ></a-cursor>
+          <a-entity id="spawner" position="0 0 -1.5"></a-entity>
+          <a-sphere class="head" visible="false" random-color></a-sphere>
+        </a-entity>
+      </a-entity>
+      <!-- removed this line from player as entering AR mode centres you - spawn-in-circle="radius:3" -->
+
+      <!-- a-entity
+        environment="preset: forest; lighting: none; shadow: none; lightPosition: 0 2.15 0"
+        hide-in-ar-modedd
+      ></a-entity -->
+      <a-entity light="type: ambient; intensity: 0.5;"></a-entity
+      ><a-light
+        type="directional"
+        light="castShadow: true; shadowMapHeight: 1024; shadowMapWidth: 1024; shadowCameraLeft: -7; shadowCameraRight: 5; shadowCameraBottom: -5; shadowCameraTop: 5;"
+        id="light"
+        position="2 3 1.5"
+      ></a-light>
+      <!-- The follwing shadow-receiving plane is only visible in AR mode. -->
+      <a-plane
+        height="15"
+        width="15"
+        position="0 0 -3"
+        rotation="-90 0 0"
+        shadow="receive: true"
+        ar-shadows="opacity: 0.3"
+        visible="false"
+      ></a-plane>
+    </a-scene>
+
+    <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
+    <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
+    <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
+    <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
+
+    <div class="hoverbutton" style="position:fixed;top:20px;right:20px;">
+      <button onclick="spawnHeart()">Drop a Cube</button>
+    </div>
+
+    <script>
+      /*
+      function spawnCube() {
+        var el = document.getElementById("player");
+        var pos = el.getAttribute("position");
+        console.log("initial");
+        console.log(pos);
+        var boxPos = pos;
+        var box = document.createElement("a-box");
+        console.log("post box createElement");
+        console.log(pos);
+        console.log(box);
+        console.log("posBox");
+        console.log(boxPos);
+        boxPos.z -= 2;
+        console.log("post boxPosZ adjustment");
+        console.log(pos);
+        console.log(boxPos);
+        box.setAttribute("position", boxPos);
+        console.log("post box.setAttribute position: ");
+        console.log(pos);
+        box.setAttribute("scale", "0.1 0.1 0.1");
+        box.setAttribute("dynamic-body", "shape:  box");
+        document.querySelector("a-scene").appendChild(box);
+      }
+      */
+    </script>
+
+    <script>
+      function spawnHeart() {
+        var heart = document.createElement("a-entity");
+        heart.setAttribute("mixin", "heart_mixin");
+        document.querySelector("a-scene").appendChild(heart);
+        console.log("drop button was clicked");
+      }
+    </script>
+
+    <script>
+      // Define custom schema for syncing avatar color, set by random-color
+      NAF.schemas.add({
+        template: "#avatar-template",
+        components: [
+          "position",
+          "rotation",
+          {
+            selector: ".head",
+            component: "material",
+            property: "color"
+          }
+        ]
+      });
+    </script>
+
+    <div id="text">
+      <p>
+        Size: <button id="btn_full">Full</button>
+        <button id="btn_half">1/2</button> <button id="btn_quarter">1/4</button>
+      </p>
+    </div>
+    <script>
+      function setSize(scale) {
+        document
+          .getElementById("dino")
+          .setAttribute("scale", { x: scale, y: scale, z: scale });
+      }
+      document.getElementById("btn_full").onclick = setSize.bind(this, 1);
+      document.getElementById("btn_half").onclick = setSize.bind(this, 0.5);
+      document.getElementById("btn_quarter").onclick = setSize.bind(this, 0.25);
+    </script>
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js"></script>
+  </body>
+</html>
