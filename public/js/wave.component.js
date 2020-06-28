@@ -1,4 +1,18 @@
-AFRAME.registerComponent('gun', {
+/*
+AFRAME.registerComponent('wave-button2', {
+  init: function () {
+    let sceneEl = document.querySelector('a-scene');
+    let el = this.el;
+
+    el.addEventListener('click', function () {
+      console.log("wave button was clicked!");
+      
+    });
+  } 
+});
+*/
+
+AFRAME.registerComponent('wave-button', {
   schema: {
     bulletTemplate: {default: '#bullet-template'},
     triggerKeyCode: {default: 32} // spacebar
@@ -6,6 +20,14 @@ AFRAME.registerComponent('gun', {
 
   init: function() {
     var that = this;
+    let sceneEl = document.querySelector('a-scene');
+    let el = this.el;
+
+    el.addEventListener('click', function () {
+      console.log("wave button was clicked!");
+      that.shoot();
+      
+    });
     document.body.onkeyup = function(e){
       if(e.keyCode == that.data.triggerKeyCode){
         that.shoot();
@@ -20,13 +42,27 @@ AFRAME.registerComponent('gun', {
   createBullet: function() {
     var el = document.createElement('a-entity');
     el.setAttribute('networked', 'template:' + this.data.bulletTemplate);
-    el.setAttribute('remove-in-seconds', 1.8);
+    el.setAttribute('remove-in-seconds', 1.2);
     
-
     var tip = document.querySelector('#player');
-    el.setAttribute('position', this.getInitialBulletPosition(tip));
-    el.setAttribute('rotation', this.getInitialBulletRotation(tip));
-
+      var debug = document.querySelector('#debugging01'); // added for debugging
+    var rotationOfPlayer = this.getInitialBulletRotation(tip);
+    var rotationOfHand = {x: 0, y: 0, z: 0};
+      // var positionOfHand = {x: 0, y: 0, z: 0}; // added for debugging
+      // positionOfHand = this.getInitialBulletPosition(tip); // added for debugging
+      // console.log(positionOfHand); // added for debugging
+      // console.log(debug.value); // added for debugging
+      // var debugValue = debug.value; // added for debugging
+      // var x = debugValue.toString(); // added for debugging
+      // console.log(x); // added for debugging
+      // debug.setAttribute('text','value',rotationOfPlayer.y);
+    rotationOfHand.y = tip.getAttribute('rotation').y;
+    el.setAttribute('rotation', rotationOfHand);
+      var testThing = document.querySelector('#wavebuttonparent'); // added for debugging
+      var positionOfPlayer = this.getInitialBulletPosition(testThing); // added for debugging
+      debug.setAttribute('text','value', positionOfPlayer.z); // added for debugging
+    el.setAttribute('position', this.getInitialBulletPosition(testThing));
+    
     var scene = document.querySelector('a-scene');
     scene.appendChild(el);
   },
@@ -44,7 +80,7 @@ AFRAME.registerComponent('gun', {
     spawnerEl.object3D.getWorldDirection(worldDirection);
     worldDirection.multiplyScalar(-1);
     this.vec3RadToDeg(worldDirection);
-
+    
     return worldDirection;
   },
 

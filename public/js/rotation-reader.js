@@ -13,7 +13,7 @@ AFRAME.registerComponent('rotation-reader', {
   
   tick: function (t, dt) {
     var el = this.el;
-    var rotationTmp = this.rotationTmp = this.rotationTmp || {x: -45, y: 0, z: 0};
+    var rotationTmp = this.rotationTmp = this.rotationTmp || {x: 0, y: 0, z: 0};
     var rotation = el.getAttribute('rotation');
     rotationTmp.y = rotation.y + 0.1;
     if (el){

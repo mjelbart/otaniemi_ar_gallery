@@ -1,6 +1,6 @@
 /* global AFRAME */
 
-AFRAME.registerComponent('wave-button', {
+AFRAME.registerComponent('wave-button2', {
   init: function () {
     let sceneEl = document.querySelector('a-scene');
     let el = this.el;

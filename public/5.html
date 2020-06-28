@@ -22,9 +22,11 @@
 
     
     <script src="/js/position-reader.js"></script>
+    <script src="/js/rotation-reader.js"></script>
     
     <!-- script src="/js/button.js"></script -->
     <script src="/js/button.js"></script>
+    <script src="/js/wave.component.js"></script>
 
     <script src="/js/gun.component.js"></script>
     <script src="/js/remove-in-seconds.component.js"></script>
@@ -203,8 +205,9 @@
 
         <a-asset-item
           id="handwave"
-          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwave02.obj"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwave03.obj"
         ></a-asset-item>
+        <!-- previous: https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwave02.obj -->
 
         <a-asset-item
           id="gallerytest"
@@ -241,6 +244,12 @@
           id="welcome-board"
           src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwelcome-board.obj"
         ></a-asset-item>
+        
+        <a-asset-item
+          id="headShape01"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fhead01.obj"
+        ></a-asset-item>
+        
 
 
         <!-- Templates -->
@@ -248,12 +257,17 @@
         <!-- Avatar -->
         <template id="avatar-template">
           <a-entity class="avatar">
-            <a-sphere
+            <a-entity 
+                      color="#5985ff"
+                      obj-model="obj: #headShape01"
+                      random-color
+                      ></a-entity>
+            <!-- a-sphere
               class="head"
               color="#5985ff"
               scale="0.15 0.3 0.15"
               random-color
-            ></a-sphere>
+            ></a-sphere -->
             <!-- a-entity gltf-model="#gtlfavatar"></a-entity -->
             <a-entity class="face" position="0 0.05 0">
               <a-sphere
@@ -287,16 +301,20 @@
         </template>
 
         <template id="handwave-template">
+          <a-entity>
           <a-entity
             class="bullet"
             obj-model="obj: #handwave;"
-            material="color:#d51010"
+            material="color:#fac036"
             scale="1.6 1.6 1.6"
-            animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate;"
+            animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 250; easing:linear; dir: alternate;"
+                    
           ></a-entity>
+            </a-entity>
         </template>
 
-        <!-- /Templates -->
+        <!-- /Templates 
+-->
 
         <!-- Mixins -->
 
@@ -381,6 +399,14 @@
       <!-- The following entity should encapsulate most scene elements except the player. -->
       <!-- Normal camera height is 1.6 metres but enter AR seems to be setting the camera to 1.2 metres high. -->
       <a-entity position="0 -0.4 0">
+        
+        <a-entity
+          id="debugging01"
+          text="color: #000000; width: 0.71; value: 0 12 0; wrapCount: 16.89"
+          position="-0.196 2 -1.51"
+          rotation="0 0 0"
+        ></a-entity>
+        
         <a-entity
           id="stump"
           obj-model="obj: #stumpobj-asset"
@@ -743,9 +769,11 @@
           position="0 1.2 0"
           
                   position-reader="target: wavebuttonparent"
+                  rotation-reader="target: wavebuttonparent"
           wasd-controls
           look-controls
           gun="bulletTemplate:#handwave-template"
+                  wave-button="bulletTemplate:#handwave-template"
         >
           <a-cursor
             id="cursor"
@@ -776,14 +804,14 @@
               geometry="primitive:plane;width:0.2;height:0.2;"
                       material="visible:false"
               class="clickable"
-                      pause-button
-                      wave-button
+                      
+                      
               scale="1.6 1.6 1.6"
               position="0 0.679 0"
-              animation="loop:4;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate; startEvents:mouseenter;">
+              animation="loop:4;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 250; easing:linear; dir: alternate; startEvents:mouseenter;">
             <a-entity
               obj-model="obj: #handwave;"
-              material="color:#d51010"
+              material="color:#fac036"
                       
             >
                 
