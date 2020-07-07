@@ -1,37 +1,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Otaniemi AR Gallery</title>
+    <title>AR Gallery</title>
     <meta
       name="description"
-      content="An AR Gallery to display art by people living around the Otaniemi area"
+      content="An AR Gallery"
     />
 
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
-    <!-- script src="easyrtc/easyrtc.js"></script -->
-    <!-- script src="https://unpkg.com/networked-aframe@^0.6.0/dist/networked-aframe.min.js"></script-->
-    <!-- script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script -->
-    <script src="https://unpkg.com/networked-aframe@^0.7.1/dist/networked-aframe.min.js"></script>
-
+    
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
-    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
-    <script src="/js/spawn-in-circle.component.js"></script>
-
     
-    <script src="/js/position-reader.js"></script>
-    <script src="/js/rotation-reader.js"></script>
-    
-    <!-- script src="/js/button.js"></script -->
-    <script src="/js/button.js"></script>
-    <script src="/js/wave.component.js"></script>
-
-    <script src="/js/gun.component.js"></script>
-    <script src="/js/remove-in-seconds.component.js"></script>
     <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
-
 
     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
@@ -87,14 +68,10 @@
       });
     </script>
 
-    <!-- I may need this alternate script https://raw.githubusercontent.com/TopRankMarketing/aframe-google-poly-component/master/aframe-google-poly-component.min.js -->
   </head>
+
   <body>
     <a-scene
-      networked-scene="
-      room: basic;
-      debug: true;
-    "
     >
       <a-assets>
         <img
@@ -103,6 +80,10 @@
           crossorigin="anonymous"
         />
 
+        
+        
+        
+        <!-- PAINTINGS -->
         <img
           id="rainbow-tree"
           src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Frainbow-tree.jpg"
@@ -156,19 +137,16 @@
           src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fbeard-bird.jpg"
           crossorigin="anonymous"
         />
+        
+        <!-- END OF PAINTINGS SECTION -->
 
+        
+        
         <img
           id="sky"
           src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg"
           crossorigin="anonymous"
         />
-
-        <audio
-          id="tone"
-          crossorigin="anonymous"
-          src="https://cdn.glitch.com/8f8913e8-cc3e-4b08-8a35-d4861e7a8593%2FA-Tone-His_Self-1266414414.mp3"
-          preload="auto"
-        ></audio>
 
         <a-asset-item
           id="rock"
@@ -242,7 +220,7 @@
 
         <a-asset-item
           id="welcome-board"
-          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fwelcome-board.obj"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fround-bottom-board.obj"
         ></a-asset-item>
         
         <a-asset-item
@@ -250,71 +228,16 @@
           src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Fhead01.obj"
         ></a-asset-item>
         
+        <a-asset-item
+          id="rockstack-asset"
+          src="https://cdn.glitch.com/e7854d71-f0ce-4b9f-a894-6d103ccc93b2%2Frockstack_scanned01_38kTris_4x2kJPGTextures.glb"
+        ></a-asset-item>
+        
+        
 
 
         <!-- Templates -->
 
-        <!-- Avatar -->
-        <template id="avatar-template">
-          <a-entity class="avatar">
-            <a-entity 
-                      color="#5985ff"
-                      obj-model="obj: #headShape01"
-                      random-color
-                      ></a-entity>
-            <!-- a-sphere
-              class="head"
-              color="#5985ff"
-              scale="0.15 0.3 0.15"
-              random-color
-            ></a-sphere -->
-            <!-- a-entity gltf-model="#gtlfavatar"></a-entity -->
-            <a-entity class="face" position="0 0.05 0">
-              <a-sphere
-                class="eye"
-                color="#efefef"
-                position="0.08 0.05 -0.1"
-                scale="0.08 0.08 0.08"
-              >
-                <a-sphere
-                  class="pupil"
-                  color="#000"
-                  position="0 0 -1"
-                  scale="0.2 0.2 0.2"
-                ></a-sphere>
-              </a-sphere>
-              <a-sphere
-                class="eye"
-                color="#efefef"
-                position="-0.08 0.05 -0.1"
-                scale="0.08 0.08 0.08"
-              >
-                <a-sphere
-                  class="pupil"
-                  color="#000"
-                  position="0 0 -1"
-                  scale="0.2 0.2 0.2"
-                ></a-sphere>
-              </a-sphere>
-            </a-entity>
-          </a-entity>
-        </template>
-
-        <template id="handwave-template">
-          <a-entity>
-          <a-entity
-            class="bullet"
-            obj-model="obj: #handwave;"
-            material="color:#fac036"
-            scale="1.6 1.6 1.6"
-            animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 250; easing:linear; dir: alternate;"
-                    
-          ></a-entity>
-            </a-entity>
-        </template>
-
-        <!-- /Templates 
--->
 
         <!-- Mixins -->
 
@@ -398,13 +321,14 @@
 
       <!-- The following entity should encapsulate most scene elements except the player. -->
       <!-- Normal camera height is 1.6 metres but enter AR seems to be setting the camera to 1.2 metres high. -->
-      <a-entity position="0 -0.4 0">
+      <a-entity position="0 -0.2 0">
         
         <a-entity
           id="debugging01"
           text="color: #000000; width: 0.71; value: 0 12 0; wrapCount: 16.89"
           position="-0.196 2 -1.51"
           rotation="0 0 0"
+                  visible="false"
         ></a-entity>
         
         <a-entity
@@ -415,72 +339,10 @@
           scale="1 1 1"
                   material="color:	#6B8E23"
         ></a-entity>
-
-        <a-entity
-          id="poster01"
-          gltf-model="#poster-asset"
-          position="1.09539 1.35222 -0.35898"
-          rotation="0 -24.218353042384766 0"
-          scale="1 1 1"
-          visible="false"
-        ></a-entity>
-        <a-entity
-          id="poster02"
-          gltf-model="#poster-asset"
-          position="1.07512 1.3519 -0.06037"
-          rotation="0 17.18472314935878 0"
-          scale="1 1 1"
-          visible="false"
-        ></a-entity>
-        <a-entity
-          id="poster03"
-          gltf-model="#poster-asset"
-          position="1.04808 1.35867 0.18295"
-          rotation="0 -33.905923442456725 0"
-          scale="1 1 1"
-                  visible="false"
-        ></a-entity>
-        <a-entity
-          id="poster04"
-          gltf-model="#poster-asset"
-          position="1.03456 1.35896 0.46682"
-          rotation="0 24.132409373115145 0"
-          scale="1 1 1"
-                  visible="false"
-        ></a-entity>
-        <a-entity
-          id="poster05"
-          gltf-model="#poster-asset"
-          position="1.02105 1.36296 0.71013"
-          rotation="0 -29.322834039205272 0"
-          scale="1 1 1"
-                  visible="false"
-        ></a-entity>
-
-        <a-entity
-          id="poster06"
-          gltf-model="#poster-asset"
-          position="0.33896 1.34071 1.33"
-          rotation="0 -90 0"
-          scale="1 1 1"
-                  visible="false"
-        ></a-entity>
-        <a-entity
-          id="poster07"
-          gltf-model="#poster-asset"
-          position="0.00534 1.55327 1.33"
-          rotation="0 -90 0"
-          scale="1 1 1"
-                  visible="false"
-        ></a-entity>
-        <a-entity
-          id="poster08"
-          gltf-model="#poster-asset"
-          position="-0.32827 1.28327 1.33"
-          rotation="0 -90 0"
-          scale="1 1 1"
-                  visible="false"
-        ></a-entity>
+        
+        
+        
+        
 
         <a-entity id="zigzag-group" rotation="0 10 0"
         position="0.3854 0 0.2676">
@@ -600,14 +462,16 @@
 
         <a-entity
           id="welcome_message01"
-          text="color: #000000; width: 0.71; value: Welcome to the Otaniemi AR Gallery!; wrapCount: 16.89"
+          text="color: #000000; width: 0.71; value: Name of the exhibition; wrapCount: 16.89; align:  center"
           position="0 2.00194 0"
           rotation="0 0 0"
         ></a-entity>
 
+          
+          
         <a-entity
           id="welcome_message02"
-          text="color: #000000; width: 0.69; value: These lovely works have been crafted by residents of the Otaniemi area and displayed here with the hope brightening your day a little.; wrapCount: 30.2"
+          text="color: #000000; width: 0.69; value: Designed by Top Hat Wombat; wrapCount: 30.2"
           position="0 1.77694 0"
           rotation="0 0 0"
         ></a-entity>
@@ -711,7 +575,16 @@
           material="color:#f2f3f4"
         >
         </a-entity>
-        <a-entity id="sculpt-blob" gltf-model="#sculpt01" position="0.87291 0 -0.90663"></a-entity>
+        <a-entity id="sculpt-blob" gltf-model="#sculpt01" position="0.873 -0.156 -0.228"></a-entity>
+        
+        <a-entity
+          id="rockstack"
+          gltf-model="#rockstack-asset"
+          position="1.124 0.869 0.015"
+          rotation="0 155.434 0"
+          scale="0.1 0.1 0.1"
+          
+        ></a-entity>
 
         <a-entity
           visible="false"
@@ -725,22 +598,7 @@
         <!-- a-entity id="wave" obj-model="obj: #handwave;" material="color:#d51010" position="-0.4 1 -2.655" rotation="0 0 0" scale="1 1 1"
                 animation="loop:true;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 500; easing:linear; dir: alternate;"></a-entity -->
 
-        <a-entity
-          id="houseplant"
-          gltf-model="#houseplanty"
-          position="-0.640 10 -2.655"
-          rotation="0 0 0"
-          scale="1 1 1"
-        ></a-entity>
-
-        <a-entity
-          id="heart01"
-          gltf-model="#heart"
-          position="-0.18 20 -1.495"
-          scale="0.02 0.02 0.02"
-          dynamic-body="shape:  sphere"
-        ></a-entity>
-
+     
         <!-- a-entity id="jarbottom" static-body="sphereRadius: NaN" static-body geometry="width: 0.2; height: 0.01; depth: 0.2" position="-0.02066 -0.00547 -0.02189" ></a-entity -->
 
         <!--a-entity link="href: https://naf-shootertest.glitch.me; title: Room 2; image: #pic001_smilingApple;" position="-1 1.6 0"></a-entity -->
@@ -765,60 +623,20 @@
         <a-entity
           id="player"
           camera
-          networked="template:#avatar-template;attachTemplateToLocal:false;"
+
           position="0 1.2 0"
           
-                  position-reader="target: wavebuttonparent"
-                  rotation-reader="target: wavebuttonparent"
+             
           wasd-controls
           look-controls
-          gun="bulletTemplate:#handwave-template"
-                  wave-button="bulletTemplate:#handwave-template"
-        >
-          <a-cursor
-            id="cursor"
-            raycaster="objects: .clickable"
-            cursor="fuse: true; fuseTimeout: 1000"
-            animation="property:scale; from: 0.2 0.2 0.2; to: 1 1 1; dur: 150; startEvents: click;"
-            animation__2="startEvents: fusing;property: scale;from: 1 1 1;to: 0.2 0.2 0.2;dur: 1000"
-          ></a-cursor>
+                  >
+          
 
-          <a-sphere class="head" visible="false" random-color></a-sphere>
-
+          
           
         </a-entity>
         
-        <a-entity
-                  id="wavebuttonparent"
-                  
-                  >
-          <a-entity id="player-ring"
-                    geometry="primitive: ring; radiusInner: 0.5; radiusOuter: 1"
-                    position="0 -0.8 0"
-                    rotation="-90 0 0"
-                    material="transparent:true;opacity:0.2"
-                    >
-            
-            <a-entity
-                      id="handwaveparent"
-              geometry="primitive:plane;width:0.2;height:0.2;"
-                      material="visible:false"
-              class="clickable"
-                      
-                      
-              scale="1.6 1.6 1.6"
-              position="0 0.679 0"
-              animation="loop:4;property:rotation;from: 0 0 0; to: 0 0 -20; dur: 250; easing:linear; dir: alternate; startEvents:mouseenter;">
-            <a-entity
-              obj-model="obj: #handwave;"
-              material="color:#fac036"
-                      
-            >
-                
-                </a-entity>
-             </a-entity>
-          </a-entity>
-          </a-entity>
+        
           
         
 
@@ -827,14 +645,14 @@
 
       <!-- a-entity
         environment="preset: forest; lighting: none; shadow: none; lightPosition: 0 2.15 0"
-        hide-in-ar-modedd
+        hide-in-ar-mode
       ></a-entity -->
       <a-entity light="type: ambient; intensity: 0.5;"></a-entity
       ><a-light
         type="directional"
         light="castShadow: true; shadowMapHeight: 1024; shadowMapWidth: 1024; shadowCameraLeft: -7; shadowCameraRight: 5; shadowCameraBottom: -5; shadowCameraTop: 5;"
         id="light"
-        position="2 3 1.5"
+        position="-1.572 3.000 1.500"
       ></a-light>
       <!-- The follwing shadow-receiving plane is only visible in AR mode. -->
       
@@ -846,39 +664,6 @@
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
     <!-- ######### ######### ######### the end of the a-scene ######### ######### ######### -->
 
-    <script>
-      // Define custom schema for syncing avatar color, set by random-color
-      NAF.schemas.add({
-        template: "#avatar-template",
-        components: [
-          "position",
-          "rotation",
-          {
-            selector: ".head",
-            component: "material",
-            property: "color"
-          }
-        ]
-      });
-    </script>
-
-    <div id="text">
-      <p>
-        Size: <button id="btn_full">Full</button>
-        <button id="btn_half">1/2</button> <button id="btn_quarter">1/4</button>
-      </p>
-    </div>
-    <script>
-      function setSize(scale) {
-        document
-          .getElementById("dino")
-          .setAttribute("scale", { x: scale, y: scale, z: scale });
-      }
-      document.getElementById("btn_full").onclick = setSize.bind(this, 1);
-      document.getElementById("btn_half").onclick = setSize.bind(this, 0.5);
-      document.getElementById("btn_quarter").onclick = setSize.bind(this, 0.25);
-    </script>
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js"></script>
-  </body>
+   
+    </body>
 </html>
