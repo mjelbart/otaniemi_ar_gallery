@@ -1,17 +1,3 @@
-/*
-AFRAME.registerComponent('wave-button2', {
-  init: function () {
-    let sceneEl = document.querySelector('a-scene');
-    let el = this.el;
-
-    el.addEventListener('click', function () {
-      console.log("wave button was clicked!");
-      
-    });
-  } 
-});
-*/
-
 AFRAME.registerComponent('wave-button', {
   schema: {
     bulletTemplate: {default: '#bullet-template'},
